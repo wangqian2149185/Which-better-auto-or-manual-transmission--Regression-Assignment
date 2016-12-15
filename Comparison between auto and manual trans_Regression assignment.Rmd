@@ -1,0 +1,25 @@
+---
+title: "Report of comparison between auto and manual transmissions by quantifying MPG"
+author: "Qian Wang"
+date: "December 15, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r datasets, include=FALSE, echo=TRUE}
+library(datasets)
+library(ggplot2)
+library(dplyr)
+```
+
+
+```{r}
+fit <- lm(mpg~factor(am)+factor(cyl)+disp+hp+drat+wt+qsec+factor(vs)+factor(gear)+factor(carb), data = mtcars)
+Coef <- coef(summary(fit))[1:2,]
+```
+```{r}
+
+```
