@@ -4,8 +4,9 @@ author: "Qian Wang"
 date: "December 15, 2016"
 output: html_document
 ---
+Introduction: what is the goal of the project
 
-```{r setup, include=FALSE}
+```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -15,11 +16,47 @@ library(ggplot2)
 library(dplyr)
 ```
 
+## Explornary data of the mtcars of mpg ~ am
+```{r}
+g <- ggplot(data = mtcars, aes(x= factor(am),y= mpg, fill=factor(am)))
+g <- g + geom_violin(colour="black", size =2)
+g <- g + xlab("Type of transimission") + ylab("Miles per gallon")
+g <- g + scale_fill_discrete(name="Type of transmissions",
+                           breaks = c(0,1),
+                           labels=c("automatic","manual"))
+g <- g + ggtitle("Explornary of mpg versus am in 'mtcars' dataset")
+g
+```
+
+According to the plot, the mpg between these two am mode (auto and manual) is quite different without considering the other variables. The more quantitative modeling will be given below.
+
+## Linear modeling
+
+```{r simpleMode, include= TRUE, echo=TRUE}
+simfit <- lm(mpg~factor(am), data = mtcars)
+simCoef <- coef(summary(simfit))
+simsqu <- summary(simfit)$r.squared
+sprintf("The mpg estimate of auto is %.2f", simCoef[1,1])
+sprintf("The mpg estimate of manual is %.2f", sum(simCoef[,1]))
+sprintf("The difference between the auto and manual is %.2f with p-value %.2e", simCoef[2,1], simCoef[2,4])
+sprintf("The R-squared value is %.2f", simsqu)
+```
+
+According to the simple lm modeling, the R-squared value which is 0.36 is quite low, although the difference between auto and manual is quite significant (p-value < 0.05). We need multivariable linear fit.
+
+## Multivariable linear fit
 
 ```{r}
 fit <- lm(mpg~factor(am)+factor(cyl)+disp+hp+drat+wt+qsec+factor(vs)+factor(gear)+factor(carb), data = mtcars)
 Coef <- coef(summary(fit))[1:2,]
 ```
-```{r}
 
+
+```{r}
+round(dfbetas(fit)[,2],3) -> beta
+plot(beta)
+round(hatvalues(fit),3) -> hav
+plot(hav)
+par(mfrow=c(2,2))
+plot(fit)
 ```
