@@ -46,17 +46,36 @@ According to the simple lm modeling, the R-squared value which is 0.36 is quite 
 
 ## Multivariable linear fit
 
-```{r}
-fit <- lm(mpg~factor(am)+factor(cyl)+disp+hp+drat+wt+qsec+factor(vs)+factor(gear)+factor(carb), data = mtcars)
-Coef <- coef(summary(fit))[1:2,]
+```{r multivariate}
+mtcars$am <- as.factor(mtcars$am)
+mtcars$cyl <- as.factor(mtcars$cyl)
+mtcars$vs <- as.factor(mtcars$vs)
+mtcars$gear <- as.factor(mtcars$gear)
+mtcars$carb <- as.factor(mtcars$carb)
+
+inifit <- lm(mpg~., data = mtcars)
+fit <- step(inifit,direction = "both")
+
+Coef <- coef(summary(fit))[c("(Intercept)","am1"),]
+squ <- summary(fit)$r.squared
+sprintf("The mpg estimate of auto is %.2f", Coef[1,1])
+sprintf("The mpg estimate of manual is %.2f", sum(Coef[,1]))
+sprintf("The difference between the auto and manual is %.2f with p-value %.2f", Coef[2,1], Coef[2,4])
+sprintf("The R-squared value is %.2f", squ)
+sprintf("The p-value for the differences between these two models is %.3f which is smaller than 0.05",anova(simfit,fit)[[6]][2])
 ```
 
+According to the multivariated modeling, the mpg estimate of auto is 33.71 compared to the of manual 35.52. The p-value of difference is 0.21 which is larger than 0.05. Based on this modelling, we would say that there is not much significant difference on the mpg between the auto and manual transmission by eliminating the other variables (such as cylindar, displacement, drat, weight and so on). The R-squared value is 0.87 which is better than before. More diagnostics, as follow, need to be done to confirm the certainty of this modeling outcome.
 
 ```{r}
-round(dfbetas(fit)[,2],3) -> beta
-plot(beta)
-round(hatvalues(fit),3) -> hav
-plot(hav)
 par(mfrow=c(2,2))
 plot(fit)
 ```
+
+According to the diagnostic plot above, we can see that the points in residual vs fitted value plot distributed well, indicating that the model fits the data well.
+
+```{r}
+anova(simfit,fit)
+```
+
+According to the comparison between the simple variable and multivariable linear fit, we can see that differences between are quite significant by checking out the p-value 1.68e-08. 
