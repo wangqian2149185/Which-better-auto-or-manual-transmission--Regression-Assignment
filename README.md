@@ -1,2 +1,2 @@
 # Which-better-auto-or-manual-transmission--Regression-Assignment
-In order to find out which way the auto or manual transmission can save more gas, we are going to plot the 'mpg' versus different type of transmission of cars in a lens of cars. We are going to apply the linear regression on each type of transmission of cars and then compare them to determine whether the differences are significant or not.
+In order to find out which way the auto or manual transmission can save more gas, we are going to plot the `mpg` versus different type of transmission of cars in a lens of cars. We are going to apply the linear regression on each type of transmission of cars and then compare them to determine whether the differences are significant or not.
