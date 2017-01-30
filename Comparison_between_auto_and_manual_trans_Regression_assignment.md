@@ -79,7 +79,7 @@ Appendix 1
     g <- g + ggtitle("Explornary of mpg versus am in 'mtcars' dataset")
     g
 
-![](Comparison_between_auto_and_manual_trans_Regression_assignment_files/figure-markdown_strict/unnamed-chunk-5-1.png)
+![](unnamed-chunk-5-1.png)
 
 Appendix 2
 ----------
@@ -87,7 +87,7 @@ Appendix 2
     par(mfrow=c(2,2))
     plot(fit)
 
-![](Comparison_between_auto_and_manual_trans_Regression_assignment_files/figure-markdown_strict/unnamed-chunk-6-1.png)
+![](unnamed-chunk-6-1.png)
 
 Apendix 3
 ---------
